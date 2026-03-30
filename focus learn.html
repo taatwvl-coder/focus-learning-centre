@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focus Learning Centre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ===================== DESIGN SYSTEM ===================== */
+    :root {
+      --navy: #0F1F3D;
+      --gold: #F4A623;
+      --white: #FFFFFF;
+      --light-bg: #F8F9FC;
+      --text: #1A1A2E;
+      --text-muted: #6B7280;
+      --border: #E5E7EB;
+      --radius-card: 16px;
+      --radius-btn: 8px;
+      --radius-pill: 50px;
+      --shadow-base: 0 4px 24px rgba(0,0,0,0.08);
+      --shadow-hover: 0 12px 32px rgba(0,0,0,0.15);
+      --transition-base: all 0.3s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--text); background-color: var(--light-bg); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    h1,h2,h3,h4 { color: var(--navy); font-weight: 700; line-height: 1.2; }
+    a { text-decoration: none; color: inherit; transition: var(--transition-base); }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ===================== LAYOUT ===================== */
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 100px 0; }
+    .text-center { text-align: center; }
+    .text-muted { color: var(--text-muted); }
+    .text-white { color: var(--white); }
+    .text-gold { color: var(--gold); }
+    .mb-1 { margin-bottom: 8px; }
+    .mb-2 { margin-bottom: 16px; }
+    .mb-3 { margin-bottom: 24px; }
+    .mb-4 { margin-bottom: 32px; }
+    .mt-4 { margin-top: 32px; }
+    .grid { display: grid; gap: 32px; }
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+    /* ===================== BUTTONS ===================== */
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px; font-weight: 600; font-size: 1rem; border-radius: var(--radius-btn); border: 2px solid transparent; cursor: pointer; transition: var(--transition-base); font-family: inherit; }
+    .btn-primary { background-color: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .btn-primary:hover { background-color: #e0961b; border-color: #e0961b; transform: translateY(-2px); box-shadow: var(--shadow-base); }
+    .btn-ghost { background-color: transparent; color: var(--navy); border-color: var(--navy); }
+    .btn-ghost:hover { background-color: var(--navy); color: var(--white); transform: translateY(-2px); }
+    .btn-pill { border-radius: var(--radius-pill); }
+
+    /* ===================== CARDS ===================== */
+    .card { background-color: var(--white); border-radius: var(--radius-card); padding: 32px; box-shadow: var(--shadow-base); border: 1px solid var(--border); transition: var(--transition-base); }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+
+    /* ===================== NAVBAR ===================== */
+    .navbar { position: fixed; top: 0; left: 0; width: 100%; height: 80px; display: flex; align-items: center; background-color: transparent; transition: var(--transition-base); z-index: 1000; }
+    .navbar.scrolled { background-color: var(--white); box-shadow: var(--shadow-base); }
+    .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+    .nav-brand { font-size: 1.5rem; font-weight: 800; color: var(--white); }
+    .navbar.scrolled .nav-brand { color: var(--navy); }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { font-weight: 600; color: rgba(255,255,255,0.85); cursor: pointer; }
+    .nav-links a:hover, .nav-links a.active-page { color: var(--gold); }
+    .navbar.scrolled .nav-links a { color: var(--text-muted); }
+    .navbar.scrolled .nav-links a:hover, .navbar.scrolled .nav-links a.active-page { color: var(--navy); }
+    .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 30px; height: 21px; cursor: pointer; z-index: 1001; }
+    .hamburger span { display: block; height: 3px; width: 100%; background-color: var(--white); border-radius: 3px; transition: var(--transition-base); }
+    .navbar.scrolled .hamburger span { background-color: var(--navy); }
+    .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+    /* ===================== LANG SWITCHER ===================== */
+    .lang-switcher { display: flex; gap: 6px; align-items: center; margin-left: 16px; }
+    .lang-btn { padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; border: 1.5px solid rgba(255,255,255,0.3); background: transparent; color: rgba(255,255,255,0.7); transition: all 0.2s ease; font-family: inherit; }
+    .lang-btn.active { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .navbar.scrolled .lang-btn { border-color: var(--border); color: var(--text-muted); }
+    .navbar.scrolled .lang-btn.active { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+
+    /* ===================== ANIMATIONS ===================== */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===================== PAGE SYSTEM ===================== */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ===================== HERO (HOME) ===================== */
+    .hero { position: relative; min-height: 100vh; background-color: var(--navy); color: var(--white); display: flex; align-items: center; overflow: hidden; padding-top: 80px; }
+    .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: 0; }
+    .hero::after { content: ''; position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(244,166,35,0.15) 0%, transparent 60%); border-radius: 50%; z-index: 0; }
+    .hero-content { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 40px; }
+    .hero-text { flex: 1 1 500px; }
+    .hero-text h1 { color: var(--white); font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 24px; }
+    .hero-text h1 span { position: relative; display: inline-block; }
+    .hero-text h1 span::after { content: ''; position: absolute; bottom: 4px; left: 0; width: 100%; height: 8px; background-color: var(--gold); z-index: -1; }
+    .hero-text p { font-size: 1.125rem; color: #A0AABF; margin-bottom: 32px; max-width: 480px; }
+    .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+    .hero .btn-ghost { color: var(--white); border-color: rgba(255,255,255,0.3); }
+    .hero .btn-ghost:hover { background-color: var(--white); color: var(--navy); border-color: var(--white); }
+    .hero-visual { flex: 1 1 400px; position: relative; min-height: 400px; }
+    .floating-badge { position: absolute; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); padding: 16px 24px; border-radius: var(--radius-card); color: var(--white); display: flex; align-items: center; gap: 12px; animation: float 6s ease-in-out infinite; }
+    .badge-icon { font-size: 1.5rem; color: var(--gold); }
+    .badge-1 { top: 10%; right: 10%; animation-delay: 0s; }
+    .badge-2 { bottom: 20%; left: 0%; animation-delay: -2s; }
+    .badge-3 { top: 50%; right: -5%; animation-delay: -4s; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+    /* ===================== COMPACT HERO ===================== */
+    .hero-compact { background-color: var(--navy); color: var(--white); padding: 160px 0 80px; text-align: center; position: relative; overflow: hidden; }
+    .hero-compact::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: 0; }
+    .hero-compact-content { position: relative; z-index: 1; }
+    .hero-compact h1 { color: var(--white); font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 16px; }
+    .breadcrumb { display: flex; justify-content: center; gap: 12px; font-size: 0.95rem; color: #A0AABF; }
+    .breadcrumb span.bc-link { color: var(--gold); font-weight: 600; cursor: pointer; }
+    .breadcrumb span.bc-link:hover { color: var(--white); }
+
+    /* ===================== ICON CIRCLE ===================== */
+    .icon-circle { width: 50px; height: 50px; background-color: rgba(244,166,35,0.1); color: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
+
+    /* ===================== COURSE CARDS ===================== */
+    .course-card { border-left: 4px solid var(--gold); display: flex; flex-direction: column; height: 100%; }
+    .course-card:nth-child(2) { border-left-color: #4F46E5; }
+    .course-card:nth-child(3) { border-left-color: #10B981; }
+    .course-card:nth-child(4) { border-left-color: #EF4444; }
+    .course-card-wrapper { display: flex; flex-direction: column; }
+    .course-item { display: flex; flex-direction: column; height: 100%; position: relative; overflow: hidden; }
+    .course-accent { position: absolute; top: 0; left: 0; width: 100%; height: 6px; }
+    .accent-blue { background-color: #3B82F6; }
+    .accent-green { background-color: #10B981; }
+    .accent-purple { background-color: #8B5CF6; }
+    .accent-orange { background-color: #F97316; }
+    .course-icon { font-size: 2.5rem; margin-bottom: 16px; margin-top: 8px; }
+    .course-title { font-size: 1.25rem; margin-bottom: 12px; }
+    .course-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px; flex-grow: 1; }
+    .course-meta { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+    .badge { font-size: 0.8rem; font-weight: 600; padding: 4px 12px; border-radius: var(--radius-pill); background-color: var(--light-bg); color: var(--navy); border: 1px solid var(--border); display: inline-flex; align-items: center; gap: 6px; }
+    .course-footer { margin-top: auto; border-top: 1px solid var(--border); padding-top: 20px; }
+    .course-footer .btn { width: 100%; }
+
+    /* ===================== FILTER BAR ===================== */
+    .filter-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 48px; }
+    .filter-btn { background-color: var(--white); color: var(--text-muted); border: 1px solid var(--border); padding: 10px 24px; font-weight: 600; cursor: pointer; transition: var(--transition-base); border-radius: var(--radius-pill); font-family: inherit; font-size: 0.95rem; }
+    .filter-btn:hover { border-color: var(--navy); color: var(--navy); }
+    .filter-btn.active { background-color: var(--navy); color: var(--white); border-color: var(--navy); }
+
+    /* ===================== STATS BAND ===================== */
+    .stats-band { background-color: var(--navy); color: var(--white); padding: 60px 0; text-align: center; }
+    .stat-number { font-size: 3rem; font-weight: 800; color: var(--gold); margin-bottom: 8px; }
+
+    /* ===================== ABOUT PAGE ===================== */
+    .story-visual { position: relative; height: 100%; min-height: 400px; display: flex; align-items: center; justify-content: center; }
+    .story-shape-1 { position: absolute; width: 80%; height: 80%; background-color: var(--navy); border-radius: var(--radius-card); transform: rotate(-6deg); z-index: 1; }
+    .story-shape-2 { position: absolute; width: 80%; height: 80%; background-color: var(--gold); border-radius: var(--radius-card); transform: rotate(4deg); z-index: 2; display: flex; align-items: center; justify-content: center; color: var(--navy); font-size: 4rem; }
+    .story-shape-3 { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(var(--border) 2px, transparent 2px); background-size: 20px 20px; z-index: 0; opacity: 0.5; }
+    .team-card { text-align: center; }
+    .avatar { width: 96px; height: 96px; border-radius: 50%; background-color: var(--navy); color: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; margin: 0 auto 20px; box-shadow: var(--shadow-base); border: 4px solid var(--white); outline: 2px solid var(--gold); }
+    .team-subject { color: var(--gold); font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .timeline-container { max-width: 800px; margin: 0 auto; padding: 20px 0; }
+    .timeline { position: relative; padding-left: 40px; }
+    .timeline::before { content: ''; position: absolute; top: 0; left: 9px; height: 100%; width: 4px; background-color: var(--border); border-radius: 2px; }
+    .timeline-item { position: relative; margin-bottom: 48px; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item::before { content: ''; position: absolute; top: 4px; left: -39px; width: 20px; height: 20px; border-radius: 50%; background-color: var(--gold); border: 4px solid var(--white); box-shadow: 0 0 0 2px var(--border); z-index: 1; }
+    .timeline-year { font-size: 1.5rem; font-weight: 800; color: var(--navy); margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+    .timeline-year::after { content: ''; flex-grow: 1; height: 1px; background-color: var(--border); max-width: 100px; }
+
+    /* ===================== CONTACT PAGE ===================== */
+    .info-card { display: flex; align-items: flex-start; gap: 20px; padding: 24px; margin-bottom: 24px; }
+    .info-card:last-child { margin-bottom: 0; }
+    .info-card .icon-circle { margin-bottom: 0; flex-shrink: 0; }
+    .info-content h3 { font-size: 1.2rem; margin-bottom: 8px; }
+    .info-content p, .info-content a { color: var(--text-muted); font-size: 1rem; line-height: 1.5; }
+    .info-content a:hover { color: var(--gold); }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-size: 0.9rem; font-weight: 700; margin-bottom: 8px; color: var(--navy); }
+    input, select, textarea { width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius-btn); font-family: inherit; font-size: 1rem; color: var(--text); background-color: var(--light-bg); transition: var(--transition-base); }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 4px rgba(244,166,35,0.1); background-color: var(--white); }
+    textarea { resize: vertical; }
+    .success-message { display: none; text-align: center; padding: 60px 20px; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .success-message.show { display: block; animation: fadeInUp 0.5s ease forwards; }
+
+    /* ===================== FOOTER ===================== */
+    .footer { background-color: #0A152A; color: #A0AABF; padding: 80px 0 40px; }
+    .footer h4 { color: var(--white); margin-bottom: 24px; }
+    .footer ul li { margin-bottom: 12px; }
+    .footer ul li a:hover, .footer ul li span:hover { color: var(--gold); cursor: pointer; }
+    .footer-bottom { margin-top: 60px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.875rem; }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 768px) {
+      .section { padding: 60px 0; }
+      .nav-links { position: fixed; top: 0; right: -100%; width: 80%; max-width: 400px; height: 100vh; background-color: var(--white); flex-direction: column; justify-content: center; align-items: center; gap: 32px; box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: var(--transition-base); }
+      .nav-links.active { right: 0; }
+      .nav-links a { font-size: 1.25rem; color: var(--navy) !important; }
+      .hamburger { display: flex; }
+      .lang-switcher { margin-left: 0; margin-top: 20px; }
+      .hero-visual { display: none; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .badge-3 { display: none; }
+    }
+    @media (max-width: 480px) {
+      .grid-4 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <a class="nav-brand" onclick="showPage('home')">Focus.</a>
+    <div class="nav-links" id="navLinks">
+      <a onclick="showPage('home')" data-page="home" data-i18n="nav_home">Bosh sahifa</a>
+      <a onclick="showPage('courses')" data-page="courses" data-i18n="nav_courses">Kurslar</a>
+      <a onclick="showPage('about')" data-page="about" data-i18n="nav_about">Biz haqimizda</a>
+      <a onclick="showPage('contact')" data-page="contact" data-i18n="nav_contact">Bog'lanish</a>
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="uz">UZ</button>
+        <button class="lang-btn" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- ===================== HOME PAGE ===================== -->
+<div class="page active" id="page-home">
+
+  <header class="hero">
+    <div class="container hero-content">
+      <div class="hero-text fade-up">
+        <h1 data-i18n="hero_title">Kelajagingiz <span>Focus</span>dan boshlanadi</h1>
+        <p data-i18n="hero_sub">Toshkentdagi talabalarga jahon darajasidagi ta'limni taqdim etamiz. O'z salohiyatingizni ro'yobga chiqaring, maqsadlaringizga erishing va ertangi kunga ishonch bilan qadam qo'ying.</p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary" onclick="showPage('courses')" data-i18n="btn_view_courses">Kurslarni ko'rish</button>
+          <a href="tel:+998946402229" class="btn btn-ghost" data-i18n="btn_call_now">Qo'ng'iroq qilish</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="floating-badge badge-1">
+          <span class="badge-icon">★</span>
+          <div><strong>4.9/5</strong><div style="font-size:0.8rem;opacity:0.8;" data-i18n="badge_rating">Talabalar bahosi</div></div>
+        </div>
+        <div class="floating-badge badge-2">
+          <span class="badge-icon">👥</span>
+          <div><strong>100+</strong><div style="font-size:0.8rem;opacity:0.8;" data-i18n="badge_students">Faol talabalar</div></div>
+        </div>
+        <div class="floating-badge badge-3">
+          <span class="badge-icon">🏆</span>
+          <div><strong>10+</strong><div style="font-size:0.8rem;opacity:0.8;" data-i18n="badge_years">Yillik tajriba</div></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section container">
+    <div class="text-center mb-4 fade-up">
+      <h2 class="mb-2" data-i18n="why_title">Nega aynan Focus?</h2>
+      <p style="color:var(--text-muted);max-width:600px;margin:0 auto;" data-i18n="why_sub">Har bir talabaning muvaffaqiyatini ta'minlash uchun biz tajribali o'qitishni qulay muhit bilan uyg'unlashtiramiz.</p>
+    </div>
+    <div class="grid grid-4 fade-up">
+      <div class="card text-center">
+        <div class="icon-circle" style="margin:0 auto;">👨‍🏫</div>
+        <h3 class="mb-1" style="font-size:1.25rem;" data-i18n="why_1_title">Tajribali ustozlar</h3>
+        <p style="color:var(--text-muted);font-size:0.95rem;" data-i18n="why_1_desc">Sizning rivojlanishingizga bag'ishlangan malakali mutaxassislardan o'rganing.</p>
+      </div>
+      <div class="card text-center">
+        <div class="icon-circle" style="margin:0 auto;">📚</div>
+        <h3 class="mb-1" style="font-size:1.25rem;" data-i18n="why_2_title">Zamonaviy dastur</h3>
+        <p style="color:var(--text-muted);font-size:0.95rem;" data-i18n="why_2_desc">Xalqaro ta'lim standartlariga mos keladigan eng yangi materiallar.</p>
+      </div>
+      <div class="card text-center">
+        <div class="icon-circle" style="margin:0 auto;">🎯</div>
+        <h3 class="mb-1" style="font-size:1.25rem;" data-i18n="why_3_title">Kichik guruhlar</h3>
+        <p style="color:var(--text-muted);font-size:0.95rem;" data-i18n="why_3_desc">Kichik o'quv guruhlari har bir o'quvchiga shaxsiy e'tiborni kafolatlaydi.</p>
+      </div>
+      <div class="card text-center">
+        <div class="icon-circle" style="margin:0 auto;">📍</div>
+        <h3 class="mb-1" style="font-size:1.25rem;" data-i18n="why_4_title">Qulay joylashuv</h3>
+        <p style="color:var(--text-muted);font-size:0.95rem;" data-i18n="why_4_desc">Toshkentning qoq markazida, A.Qodiriy 11A manzilida joylashgan qulay lokatsiya.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background-color:var(--light-bg);">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;" class="mb-4 fade-up">
+        <div>
+          <h2 class="mb-2" data-i18n="courses_title">Mashhur kurslar</h2>
+          <p style="color:var(--text-muted);" data-i18n="courses_sub">Bizning eng ko'p talab qilinadigan o'quv dasturlarimiz bilan tanishing.</p>
+        </div>
+        <button class="btn btn-ghost" onclick="showPage('courses')" data-i18n="btn_see_all">Barcha kurslarni ko'rish →</button>
+      </div>
+      <div class="grid grid-4 fade-up">
+        <div class="card course-card">
+          <h3 class="mb-2" style="font-size:1.25rem;" data-i18n="idx_course1_title">IELTS tayyorgarligi</h3>
+          <p style="color:var(--text-muted);font-size:0.95rem;margin-bottom:24px;flex-grow:1;" data-i18n="idx_course1_desc">Ekspert strategiyalari yordamida maqsadli balingizga erishish uchun intensiv tayyorgarlik.</p>
+          <button onclick="showPage('courses')" style="color:var(--gold);font-weight:600;background:none;border:none;cursor:pointer;font-family:inherit;font-size:1rem;text-align:left;" data-i18n="btn_learn_more">Batafsil →</button>
+        </div>
+        <div class="card course-card">
+          <h3 class="mb-2" style="font-size:1.25rem;" data-i18n="idx_course2_title">Umumiy Ingliz tili</h3>
+          <p style="color:var(--text-muted);font-size:0.95rem;margin-bottom:24px;flex-grow:1;" data-i18n="idx_course2_desc">A1 dan C1 gacha gapirish, eshitish, o'qish va yozish ko'nikmalaringizni oshiring.</p>
+          <button onclick="showPage('courses')" style="color:#4F46E5;font-weight:600;background:none;border:none;cursor:pointer;font-family:inherit;font-size:1rem;text-align:left;" data-i18n="btn_learn_more">Batafsil →</button>
+        </div>
+        <div class="card course-card">
+          <h3 class="mb-2" style="font-size:1.25rem;" data-i18n="idx_course3_title">Matematika</h3>
+          <p style="color:var(--text-muted);font-size:0.95rem;margin-bottom:24px;flex-grow:1;" data-i18n="idx_course3_desc">Maktab imtihonlari yoki universitetga kirish testlari uchun asosiy tushunchalarni o'zlashtiring.</p>
+          <button onclick="showPage('courses')" style="color:#10B981;font-weight:600;background:none;border:none;cursor:pointer;font-family:inherit;font-size:1rem;text-align:left;" data-i18n="btn_learn_more">Batafsil →</button>
+        </div>
+        <div class="card course-card">
+          <h3 class="mb-2" style="font-size:1.25rem;" data-i18n="idx_course4_title">IT va Dasturlash</h3>
+          <p style="color:var(--text-muted);font-size:0.95rem;margin-bottom:24px;flex-grow:1;" data-i18n="idx_course4_desc">Python, Web dasturlash va mantiq asoslari bilan IT sohasi bo'yicha sayohatingizni boshlang.</p>
+          <button onclick="showPage('courses')" style="color:#EF4444;font-weight:600;background:none;border:none;cursor:pointer;font-family:inherit;font-size:1rem;text-align:left;" data-i18n="btn_learn_more">Batafsil →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="text-center mb-4 fade-up">
+      <h2 class="mb-2" data-i18n="reviews_title">Talabalarimiz yutuqlari</h2>
+      <p style="color:var(--text-muted);" data-i18n="reviews_sub">Biz bilan o'z maqsadlariga erishgan talabalarning fikrlarini o'qing.</p>
+    </div>
+    <div class="grid grid-3 fade-up">
+      <div class="card">
+        <div class="mb-2" style="color:var(--gold);font-size:1.2rem;">★★★★★</div>
+        <p style="font-style:italic;margin-bottom:20px;" data-i18n="review_1">"Focusdagi IELTS o'qituvchilari ajoyib. Men atigi uch oy ichida 5.5 dan 7.5 ga ko'tarildim! Barchaga tavsiya qilaman."</p>
+        <strong>— Sardor B.</strong>
+      </div>
+      <div class="card">
+        <div class="mb-2" style="color:var(--gold);font-size:1.2rem;">★★★★★</div>
+        <p style="font-style:italic;margin-bottom:20px;" data-i18n="review_2">"Mening matematika baholarim keskin yaxshilandi. O'qituvchilar murakkab mavzularni juda oddiy va tushunarli tarzda tushuntiradilar."</p>
+        <strong>— Malika T.</strong>
+      </div>
+      <div class="card">
+        <div class="mb-2" style="color:var(--gold);font-size:1.2rem;">★★★★★</div>
+        <p style="font-style:italic;margin-bottom:20px;" data-i18n="review_3">"Ajoyib muhit, samimiy xodimlar va mukammal joylashuv. Focus, shubhasiz, Toshkentdagi eng yaxshi o'quv markazidir."</p>
+        <strong>— Aziza R.</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-band">
+    <div class="container grid grid-4 fade-up">
+      <div><div class="stat-number">10+</div><p data-i18n="stats_years">Yillik tajriba</p></div>
+      <div><div class="stat-number">100+</div><p data-i18n="stats_students">Faol talabalar</p></div>
+      <div><div class="stat-number">15+</div><p data-i18n="stats_instructors">Tajribali ustozlar</p></div>
+      <div><div class="stat-number">4.9</div><p data-i18n="stats_rating">O'rtacha baho</p></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container grid grid-4 fade-up">
+      <div>
+        <h3 class="mb-3" style="color:var(--white);font-weight:800;font-size:1.5rem;">Focus.</h3>
+        <p data-i18n="footer_desc">Akademik mukammallik va malaka oshirishdagi ishonchli hamkoringiz. Har kuni yorqin kelajakni quramiz.</p>
+      </div>
+      <div>
+        <h4 data-i18n="footer_quick_links">Tezkor havolalar</h4>
+        <ul>
+          <li><span onclick="showPage('home')" data-i18n="nav_home">Bosh sahifa</span></li>
+          <li><span onclick="showPage('courses')" data-i18n="nav_courses">Kurslar</span></li>
+          <li><span onclick="showPage('about')" data-i18n="nav_about">Biz haqimizda</span></li>
+          <li><span onclick="showPage('contact')" data-i18n="nav_contact">Bog'lanish</span></li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-i18n="footer_contact_info">Aloqa ma'lumotlari</h4>
+        <ul>
+          <li>📞 <a href="tel:+998946402229">+998 94 640 22 29</a></li>
+          <li>📍 A.Qodiriy 11A, Toshkent</li>
+          <li>✉️ info@focuscentre.uz</li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-i18n="footer_working_hours">Ish vaqti</h4>
+        <ul>
+          <li data-i18n="footer_open_daily">Har kuni ochiq</li>
+          <li data-i18n="footer_hours">9:00 dan 21:00 gacha</li>
+        </ul>
+        <div class="mt-4">
+          <button class="btn btn-primary" onclick="showPage('contact')" style="padding:8px 16px;font-size:0.9rem;" data-i18n="footer_get_directions">Manzilni ko'rish</button>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p data-i18n="footer_copyright">© 2026 Focus O'quv Markazi. Barcha huquqlar himoyalangan.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ===================== COURSES PAGE ===================== -->
+<div class="page" id="page-courses">
+  <header class="hero-compact">
+    <div class="container hero-compact-content fade-up">
+      <h1 data-i18n="hero_courses_title">Bizning kurslarimiz</h1>
+      <div class="breadcrumb">
+        <span class="bc-link" onclick="showPage('home')" data-i18n="breadcrumb_home">Bosh sahifa</span>
+        <span>›</span>
+        <span data-i18n="breadcrumb_courses">Kurslar</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="section container" style="min-height:60vh;">
+    <div class="filter-bar fade-up">
+      <button class="filter-btn active" data-filter="all" data-i18n="filter_all">Barcha kurslar</button>
+      <button class="filter-btn" data-filter="english" data-i18n="filter_english">Ingliz tili</button>
+      <button class="filter-btn" data-filter="math" data-i18n="filter_math">Matematika</button>
+      <button class="filter-btn" data-filter="sciences" data-i18n="filter_sciences">Tabiiy fanlar</button>
+      <button class="filter-btn" data-filter="uniprep" data-i18n="filter_uniprep">Universitetga tayyorgarlik</button>
+    </div>
+    <div class="grid grid-3" id="courseGrid">
+      <div class="course-card-wrapper" data-category="english">
+        <div class="card course-item">
+          <div class="course-accent accent-blue"></div>
+          <div class="course-icon">🇬🇧</div>
+          <h3 class="course-title" data-i18n="crs_eng_title">Mukammal Ingliz tili</h3>
+          <p class="course-desc" data-i18n="crs_eng_desc">Asosiy grammatikadan tortib ilg'or so'zlashuv ravonligigacha. Xalqaro tilni o'rganmoqchi bo'lgan barcha yoshdagilar uchun juda mos.</p>
+          <div class="course-meta">
+            <span class="badge" data-i18n="badge_6m">⏱️ 6 Oy</span>
+            <span class="badge" data-i18n="badge_a1_c1">📈 Boshlang'ichdan C1 gacha</span>
+          </div>
+          <div class="course-footer">
+            <button class="btn btn-ghost" onclick="showPage('contact')" data-i18n="btn_enroll">Ro'yxatdan o'tish</button>
+          </div>
+        </div>
+      </div>
+      <div class="course-card-wrapper" data-category="math">
+        <div class="card course-item">
+          <div class="course-accent accent-green"></div>
+          <div class="course-icon">📐</div>
+          <h3 class="course-title" data-i18n="crs_math_title">Matematika</h3>
+          <p class="course-desc" data-i18n="crs_math_desc">Kuchli analitik ko'nikmalarni shakllantiring. Maktab imtihonlari va olimpiadalar uchun algebra, geometriya va matematik analiz.</p>
+          <div class="course-meta">
+            <span class="badge" data-i18n="badge_4_8m">⏱️ 4-8 Oy</span>
+            <span class="badge" data-i18n="badge_all_levels">📈 Barcha darajalar</span>
+          </div>
+          <div class="course-footer">
+            <button class="btn btn-ghost" onclick="showPage('contact')" data-i18n="btn_enroll">Ro'yxatdan o'tish</button>
+          </div>
+        </div>
+      </div>
+      <div class="course-card-wrapper" data-category="sciences">
+        <div class="card course-item">
+          <div class="course-accent accent-purple"></div>
+          <div class="course-icon">🔬</div>
+          <h3 class="course-title" data-i18n="crs_sci_title">Tabiiy fanlar</h3>
+          <p class="course-desc" data-i18n="crs_sci_desc">Amaliyot orqali Fizika va Kimyo olamiga sho'ng'ing. Milliy testlarga va fanni chuqur tushunishga tayyorlaning.</p>
+          <div class="course-meta">
+            <span class="badge" data-i18n="badge_5m">⏱️ 5 Oy</span>
+            <span class="badge" data-i18n="badge_inter">📈 O'rta daraja</span>
+          </div>
+          <div class="course-footer">
+            <button class="btn btn-ghost" onclick="showPage('contact')" data-i18n="btn_enroll">Ro'yxatdan o'tish</button>
+          </div>
+        </div>
+      </div>
+      <div class="course-card-wrapper" data-category="uniprep">
+        <div class="card course-item">
+          <div class="course-accent accent-orange"></div>
+          <div class="course-icon">🎓</div>
+          <h3 class="course-title" data-i18n="crs_uni_title">Universitetga tayyorgarlik (IELTS/SAT)</h3>
+          <p class="course-desc" data-i18n="crs_uni_desc">Faqatgina muhim imtihonlarga yo'naltirilgan intensiv tayyorgarlik. Test strategiyalari, vaqtni boshqarish va asosiy talablarni o'rganing.</p>
+          <div class="course-meta">
+            <span class="badge" data-i18n="badge_3m">⏱️ 3 Oy</span>
+            <span class="badge" data-i18n="badge_upper">📈 O'rtadan yuqori</span>
+          </div>
+          <div class="course-footer">
+            <button class="btn btn-ghost" onclick="showPage('contact')" data-i18n="btn_enroll">Ro'yxatdan o'tish</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container grid grid-4 fade-up">
+      <div><h3 class="mb-3" style="color:var(--white);font-weight:800;font-size:1.5rem;">Focus.</h3><p data-i18n="footer_desc">Akademik mukammallik va malaka oshirishdagi ishonchli hamkoringiz.</p></div>
+      <div><h4 data-i18n="footer_quick_links">Tezkor havolalar</h4><ul><li><span onclick="showPage('home')" data-i18n="nav_home">Bosh sahifa</span></li><li><span onclick="showPage('courses')" data-i18n="nav_courses">Kurslar</span></li><li><span onclick="showPage('about')" data-i18n="nav_about">Biz haqimizda</span></li><li><span onclick="showPage('contact')" data-i18n="nav_contact">Bog'lanish</span></li></ul></div>
+      <div><h4 data-i18n="footer_contact_info">Aloqa ma'lumotlari</h4><ul><li>📞 <a href="tel:+998946402229">+998 94 640 22 29</a></li><li>📍 A.Qodiriy 11A, Toshkent</li><li>✉️ info@focuscentre.uz</li></ul></div>
+      <div><h4 data-i18n="footer_working_hours">Ish vaqti</h4><ul><li data-i18n="footer_open_daily">Har kuni ochiq</li><li data-i18n="footer_hours">9:00 dan 21:00 gacha</li></ul><div class="mt-4"><button class="btn btn-primary" onclick="showPage('contact')" style="padding:8px 16px;font-size:0.9rem;" data-i18n="footer_get_directions">Manzilni ko'rish</button></div></div>
+    </div>
+    <div class="container footer-bottom"><p data-i18n="footer_copyright">© 2026 Focus O'quv Markazi. Barcha huquqlar himoyalangan.</p></div>
+  </footer>
+</div>
+
+<!-- ===================== ABOUT PAGE ===================== -->
+<div class="page" id="page-about">
+  <header class="hero-compact">
+    <div class="container hero-compact-content fade-up">
+      <h1 data-i18n="hero_about_title">Biz haqimizda</h1>
+      <div class="breadcrumb">
+        <span class="bc-link" onclick="showPage('home')" data-i18n="breadcrumb_home">Bosh sahifa</span>
+        <span>›</span>
+        <span data-i18n="breadcrumb_about">Biz haqimizda</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="section container">
+    <div class="grid grid-2 fade-up" style="align-items:center;">
+      <div>
+        <h2 class="mb-3" style="font-size:2.5rem;" data-i18n="story_title">Birinchi kundan boshlab bilimlarni shakllantiramiz.</h2>
+        <p class="mb-3" style="font-size:1.1rem;color:var(--text-muted);" data-i18n="story_p1">Focus o'quv markazida biz ta'limni dunyoni o'zgartirishning eng kuchli vositasi deb bilamiz. Standart ta'lim va haqiqiy muvaffaqiyat o'rtasidagi tafovutni yo'qotish istagida biz talabalar shunchaki yodlamaydigan, balki tushunadigan muhitni yaratdik.</p>
+        <p class="mb-4" style="font-size:1.1rem;color:var(--text-muted);" data-i18n="story_p2">Bizning zamonaviy o'quv dasturimiz, fidoyi o'qituvchilarimiz va talabaga yo'naltirilgan yondashuvimiz bizni Toshkentning yetakchi ta'lim muassasalaridan biriga aylantirdi.</p>
+        <button class="btn btn-primary" onclick="showPage('contact')" data-i18n="btn_join">Bizning jamoaga qo'shiling</button>
+      </div>
+      <div class="story-visual">
+        <div class="story-shape-3"></div>
+        <div class="story-shape-1"></div>
+        <div class="story-shape-2">💡</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background-color:var(--light-bg);">
+    <div class="container">
+      <div class="text-center mb-4 fade-up">
+        <h2 class="mb-2" data-i18n="team_title">Ekspert ustozlarimiz bilan tanishing</h2>
+        <p style="color:var(--text-muted);" data-i18n="team_sub">Sizning muvaffaqiyatingizga o'zini bag'ishlagan fidoyi ustozlar.</p>
+      </div>
+      <div class="grid grid-3 fade-up">
+        <div class="card team-card">
+          <div class="avatar">SB</div>
+          <h3 class="mb-1">Sardor Bekmurodov</h3>
+          <div class="team-subject" data-i18n="tutor1_subj">IELTS va Ingliz tili</div>
+          <p class="text-muted" style="font-size:0.95rem;" data-i18n="tutor1_desc">Talabalarga 7.5+ ball olishga yordam berishda 8 yildan ortiq tajribaga ega bo'lgan sobiq IELTS imtihonchisi.</p>
+        </div>
+        <div class="card team-card">
+          <div class="avatar">MT</div>
+          <h3 class="mb-1">Malika Toirova</h3>
+          <div class="team-subject" data-i18n="tutor2_subj">Oliy matematika</div>
+          <p class="text-muted" style="font-size:0.95rem;" data-i18n="tutor2_desc">Amaliy matematika bo'yicha PhD darajasi. Murakkab algebraik va matematik tushunchalarni soddalashtirishga ixtisoslashgan.</p>
+        </div>
+        <div class="card team-card">
+          <div class="avatar">AR</div>
+          <h3 class="mb-1">Aziza Rustamova</h3>
+          <div class="team-subject" data-i18n="tutor3_subj">Tabiiy fanlar</div>
+          <p class="text-muted" style="font-size:0.95rem;" data-i18n="tutor3_desc">Interaktiv ta'lim orqali fizika va kimyoni hayotga tatbiq etuvchi mukofotga sazovor bo'lgan fan o'qituvchisi.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="text-center mb-4 fade-up">
+      <h2 class="mb-2" data-i18n="timeline_title">Bizning yo'limiz</h2>
+      <p style="color:var(--text-muted);" data-i18n="timeline_sub">Bizning o'sishimiz va ta'limga bo'lgan sadoqatimiz xronologiyasi.</p>
+    </div>
+    <div class="timeline-container fade-up">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">2014</div>
+          <h3 class="mb-1" data-i18n="time1_title">Focusga asos solindi</h3>
+          <p class="text-muted" data-i18n="time1_desc">Sifatli ta'lim berish ishtiyoqi asosida bitta xonadagi kichik repetitorlik guruhi sifatida boshlangan.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2018</div>
+          <h3 class="mb-1" data-i18n="time2_title">100+ talabaga erishdik</h3>
+          <p class="text-muted" data-i18n="time2_desc">Bizning jamoamiz sezilarli darajada o'sdi va bu bizni A.Qodiriy ko'chasidagi hozirgi kattaroq kampusga ko'chishga undadi.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2022</div>
+          <h3 class="mb-1" data-i18n="time3_title">O'quv dasturi kengaytirildi</h3>
+          <p class="text-muted" data-i18n="time3_desc">Zamonaviy talablarga javob beradigan keng qamrovli IT, Dasturlash va maxsus Universitetga tayyorgarlik kurslari joriy etildi.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2026</div>
+          <h3 class="mb-1" data-i18n="time4_title">O'sishda davom etmoqdamiz</h3>
+          <p class="text-muted" data-i18n="time4_desc">Tez orada yangi raqamli ta'lim platformalarini ishga tushirish rejalashtirilgan, o'n yildan ortiq ta'limdagi mukammalligimizni nishonlamoqdamiz.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-band">
+    <div class="container grid grid-4 fade-up">
+      <div><div class="stat-number">10+</div><p data-i18n="stats_years">Yillik tajriba</p></div>
+      <div><div class="stat-number">100+</div><p data-i18n="stats_students">Faol talabalar</p></div>
+      <div><div class="stat-number">15+</div><p data-i18n="stats_instructors">Tajribali ustozlar</p></div>
+      <div><div class="stat-number">4.9</div><p data-i18n="stats_rating">O'rtacha baho</p></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container grid grid-4 fade-up">
+      <div><h3 class="mb-3" style="color:var(--white);font-weight:800;font-size:1.5rem;">Focus.</h3><p data-i18n="footer_desc">Akademik mukammallik va malaka oshirishdagi ishonchli hamkoringiz.</p></div>
+      <div><h4 data-i18n="footer_quick_links">Tezkor havolalar</h4><ul><li><span onclick="showPage('home')" data-i18n="nav_home">Bosh sahifa</span></li><li><span onclick="showPage('courses')" data-i18n="nav_courses">Kurslar</span></li><li><span onclick="showPage('about')" data-i18n="nav_about">Biz haqimizda</span></li><li><span onclick="showPage('contact')" data-i18n="nav_contact">Bog'lanish</span></li></ul></div>
+      <div><h4 data-i18n="footer_contact_info">Aloqa ma'lumotlari</h4><ul><li>📞 <a href="tel:+998946402229">+998 94 640 22 29</a></li><li>📍 A.Qodiriy 11A, Toshkent</li><li>✉️ info@focuscentre.uz</li></ul></div>
+      <div><h4 data-i18n="footer_working_hours">Ish vaqti</h4><ul><li data-i18n="footer_open_daily">Har kuni ochiq</li><li data-i18n="footer_hours">9:00 dan 21:00 gacha</li></ul><div class="mt-4"><button class="btn btn-primary" onclick="showPage('contact')" style="padding:8px 16px;font-size:0.9rem;" data-i18n="footer_get_directions">Manzilni ko'rish</button></div></div>
+    </div>
+    <div class="container footer-bottom"><p data-i18n="footer_copyright">© 2026 Focus O'quv Markazi. Barcha huquqlar himoyalangan.</p></div>
+  </footer>
+</div>
+
+<!-- ===================== CONTACT PAGE ===================== -->
+<div class="page" id="page-contact">
+  <header class="hero-compact">
+    <div class="container hero-compact-content fade-up">
+      <h1 data-i18n="hero_contact_title">Bog'lanish</h1>
+      <div class="breadcrumb">
+        <span class="bc-link" onclick="showPage('home')" data-i18n="breadcrumb_home">Bosh sahifa</span>
+        <span>›</span>
+        <span data-i18n="breadcrumb_contact">Bog'lanish</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="section container" style="padding-top:60px;padding-bottom:100px;">
+    <div class="grid grid-2">
+      <div class="fade-up">
+        <h2 class="mb-4" data-i18n="contact_get_in_touch">Biz bilan bog'laning</h2>
+        <p class="mb-4 text-muted" data-i18n="contact_desc">Kurslarimiz yoki qabul bo'yicha savollaringiz bormi? Quyidagi aloqa ma'lumotlari orqali biz bilan bog'laning yoki formani to'ldiring.</p>
+        <div class="card info-card">
+          <div class="icon-circle">📍</div>
+          <div class="info-content">
+            <h3 data-i18n="contact_address_title">Bizning manzil</h3>
+            <p data-i18n="contact_address">A.Qodiriy 11A<br>Toshkent, O'zbekiston</p>
+          </div>
+        </div>
+        <div class="card info-card">
+          <div class="icon-circle">📞</div>
+          <div class="info-content">
+            <h3 data-i18n="contact_phone_title">Telefon raqami</h3>
+            <p data-i18n="contact_phone_desc">Maslahatchi bilan gaplashish uchun bizga qo'ng'iroq qiling.</p>
+            <a href="tel:+998946402229" style="font-weight:700;color:var(--navy);display:inline-block;margin-top:8px;">+998 94 640 22 29</a>
+          </div>
+        </div>
+        <div class="card info-card">
+          <div class="icon-circle">🕒</div>
+          <div class="info-content">
+            <h3 data-i18n="contact_hours_title">Ish vaqti</h3>
+            <p data-i18n="contact_hours_desc">Har kuni ochiq<br>9:00 dan 21:00 gacha</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-up" style="animation-delay:0.2s;">
+        <div class="card" style="padding:40px;">
+          <div id="formContainer">
+            <h3 class="mb-3" style="font-size:1.5rem;" data-i18n="form_title">Xabar yuborish</h3>
+            <form id="contactForm">
+              <div class="form-group">
+                <label data-i18n="form_name_label">To'liq ismingiz</label>
+                <input type="text" data-i18n-placeholder="form_name_placeholder" placeholder="Masalan: Alisher Valiyev" required>
+              </div>
+              <div class="form-group">
+                <label data-i18n="form_phone_label">Telefon raqami</label>
+                <input type="tel" placeholder="+998 __ ___ __ __" required>
+              </div>
+              <div class="form-group">
+                <label data-i18n="form_course_label">Sizni qiziqtirgan kurs</label>
+                <select required>
+                  <option value="" disabled selected data-i18n="form_course_placeholder">Kursni tanlang...</option>
+                  <option data-i18n="form_course_opt1">Mukammal Ingliz tili</option>
+                  <option data-i18n="form_course_opt2">Matematika</option>
+                  <option data-i18n="form_course_opt3">Tabiiy fanlar</option>
+                  <option data-i18n="form_course_opt4">Universitetga tayyorgarlik (IELTS/SAT)</option>
+                  <option data-i18n="form_course_opt5">Boshqa / Umumiy savol</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label data-i18n="form_message_label">Xabaringiz (Ixtiyoriy)</label>
+                <textarea rows="4" data-i18n-placeholder="form_message_placeholder" placeholder="Sizga qanday yordam bera olamiz?"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" style="width:100%;padding:16px;font-size:1.1rem;" data-i18n="form_submit">So'rovni yuborish</button>
+            </form>
+          </div>
+          <div id="successMessage" class="success-message">
+            <div style="font-size:4rem;margin-bottom:20px;">🎉</div>
+            <h2 class="mb-2" style="color:var(--navy);" data-i18n="success_title">Rahmat!</h2>
+            <p style="color:var(--text-muted);font-size:1.1rem;" data-i18n="success_desc">Xabaringiz qabul qilindi.</p>
+            <p style="color:var(--text-muted);font-size:1.1rem;font-weight:600;" data-i18n="success_sub">24 soat ichida siz bilan bog'lanamiz!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container grid grid-4 fade-up">
+      <div><h3 class="mb-3" style="color:var(--white);font-weight:800;font-size:1.5rem;">Focus.</h3><p data-i18n="footer_desc">Akademik mukammallik va malaka oshirishdagi ishonchli hamkoringiz.</p></div>
+      <div><h4 data-i18n="footer_quick_links">Tezkor havolalar</h4><ul><li><span onclick="showPage('home')" data-i18n="nav_home">Bosh sahifa</span></li><li><span onclick="showPage('courses')" data-i18n="nav_courses">Kurslar</span></li><li><span onclick="showPage('about')" data-i18n="nav_about">Biz haqimizda</span></li><li><span onclick="showPage('contact')" data-i18n="nav_contact">Bog'lanish</span></li></ul></div>
+      <div><h4 data-i18n="footer_contact_info">Aloqa ma'lumotlari</h4><ul><li>📞 <a href="tel:+998946402229">+998 94 640 22 29</a></li><li>📍 A.Qodiriy 11A, Toshkent</li><li>✉️ info@focuscentre.uz</li></ul></div>
+      <div><h4 data-i18n="footer_working_hours">Ish vaqti</h4><ul><li data-i18n="footer_open_daily">Har kuni ochiq</li><li data-i18n="footer_hours">9:00 dan 21:00 gacha</li></ul></div>
+    </div>
+    <div class="container footer-bottom"><p data-i18n="footer_copyright">© 2026 Focus O'quv Markazi. Barcha huquqlar himoyalangan.</p></div>
+  </footer>
+</div>
+
+<!-- ===================== TRANSLATIONS ===================== -->
+<script>
+const translations = {
+  uz: {
+    nav_home:"Bosh sahifa",nav_courses:"Kurslar",nav_about:"Biz haqimizda",nav_contact:"Bog'lanish",
+    footer_desc:"Akademik mukammallik va malaka oshirishdagi ishonchli hamkoringiz. Har kuni yorqin kelajakni quramiz.",
+    footer_quick_links:"Tezkor havolalar",footer_contact_info:"Aloqa ma'lumotlari",footer_working_hours:"Ish vaqti",
+    footer_open_daily:"Har kuni ochiq",footer_hours:"9:00 dan 21:00 gacha",footer_get_directions:"Manzilni ko'rish",
+    footer_copyright:"© 2026 Focus O'quv Markazi. Barcha huquqlar himoyalangan.",
+    breadcrumb_home:"Bosh sahifa",breadcrumb_courses:"Kurslar",breadcrumb_about:"Biz haqimizda",breadcrumb_contact:"Bog'lanish",
+    hero_title:"Kelajagingiz <span>Focus</span>dan boshlanadi",
+    hero_sub:"Toshkentdagi talabalarga jahon darajasidagi ta'limni taqdim etamiz. O'z salohiyatingizni ro'yobga chiqaring, maqsadlaringizga erishing va ertangi kunga ishonch bilan qadam qo'ying.",
+    btn_view_courses:"Kurslarni ko'rish",btn_call_now:"Qo'ng'iroq qilish",
+    badge_rating:"Talabalar bahosi",badge_students:"Faol talabalar",badge_years:"Yillik tajriba",
+    why_title:"Nega aynan Focus?",why_sub:"Har bir talabaning muvaffaqiyatini ta'minlash uchun biz tajribali o'qitishni qulay muhit bilan uyg'unlashtiramiz.",
+    why_1_title:"Tajribali ustozlar",why_1_desc:"Sizning rivojlanishingizga bag'ishlangan malakali mutaxassislardan o'rganing.",
+    why_2_title:"Zamonaviy dastur",why_2_desc:"Xalqaro ta'lim standartlariga mos keladigan eng yangi materiallar.",
+    why_3_title:"Kichik guruhlar",why_3_desc:"Kichik o'quv guruhlari har bir o'quvchiga shaxsiy e'tiborni kafolatlaydi.",
+    why_4_title:"Qulay joylashuv",why_4_desc:"Toshkentning qoq markazida, A.Qodiriy 11A manzilida joylashgan qulay lokatsiya.",
+    courses_title:"Mashhur kurslar",courses_sub:"Bizning eng ko'p talab qilinadigan o'quv dasturlarimiz bilan tanishing.",
+    btn_see_all:"Barcha kurslarni ko'rish →",btn_learn_more:"Batafsil →",
+    idx_course1_title:"IELTS tayyorgarligi",idx_course1_desc:"Ekspert strategiyalari yordamida maqsadli balingizga erishish uchun intensiv tayyorgarlik.",
+    idx_course2_title:"Umumiy Ingliz tili",idx_course2_desc:"A1 dan C1 gacha gapirish, eshitish, o'qish va yozish ko'nikmalaringizni oshiring.",
+    idx_course3_title:"Matematika",idx_course3_desc:"Maktab imtihonlari yoki universitetga kirish testlari uchun asosiy tushunchalarni o'zlashtiring.",
+    idx_course4_title:"IT va Dasturlash",idx_course4_desc:"Python, Web dasturlash va mantiq asoslari bilan IT sohasi bo'yicha sayohatingizni boshlang.",
+    reviews_title:"Talabalarimiz yutuqlari",reviews_sub:"Biz bilan o'z maqsadlariga erishgan talabalarning fikrlarini o'qing.",
+    review_1:"\"Focusdagi IELTS o'qituvchilari ajoyib. Men atigi uch oy ichida 5.5 dan 7.5 ga ko'tarildim! Barchaga tavsiya qilaman.\"",
+    review_2:"\"Mening matematika baholarim keskin yaxshilandi. O'qituvchilar murakkab mavzularni juda oddiy va tushunarli tarzda tushuntiradilar.\"",
+    review_3:"\"Ajoyib muhit, samimiy xodimlar va mukammal joylashuv. Focus, shubhasiz, Toshkentdagi eng yaxshi o'quv markazidir.\"",
+    stats_years:"Yillik tajriba",stats_students:"Faol talabalar",stats_instructors:"Tajribali ustozlar",stats_rating:"O'rtacha baho",
+    hero_courses_title:"Bizning kurslarimiz",filter_all:"Barcha kurslar",filter_english:"Ingliz tili",filter_math:"Matematika",filter_sciences:"Tabiiy fanlar",filter_uniprep:"Universitetga tayyorgarlik",
+    crs_eng_title:"Mukammal Ingliz tili",crs_eng_desc:"Asosiy grammatikadan tortib ilg'or so'zlashuv ravonligigacha. Xalqaro tilni o'rganmoqchi bo'lgan barcha yoshdagilar uchun juda mos.",
+    crs_math_title:"Matematika",crs_math_desc:"Kuchli analitik ko'nikmalarni shakllantiring. Maktab imtihonlari va olimpiadalar uchun algebra, geometriya va matematik analiz.",
+    crs_sci_title:"Tabiiy fanlar",crs_sci_desc:"Amaliyot orqali Fizika va Kimyo olamiga sho'ng'ing. Milliy testlarga va fanni chuqur tushunishga tayyorlaning.",
+    crs_uni_title:"Universitetga tayyorgarlik (IELTS/SAT)",crs_uni_desc:"Faqatgina muhim imtihonlarga yo'naltirilgan intensiv tayyorgarlik. Test strategiyalari, vaqtni boshqarish va asosiy talablarni o'rganing.",
+    badge_6m:"⏱️ 6 Oy",badge_a1_c1:"📈 Boshlang'ichdan C1 gacha",badge_4_8m:"⏱️ 4-8 Oy",badge_all_levels:"📈 Barcha darajalar",
+    badge_5m:"⏱️ 5 Oy",badge_inter:"📈 O'rta daraja",badge_3m:"⏱️ 3 Oy",badge_upper:"📈 O'rtadan yuqori",btn_enroll:"Ro'yxatdan o'tish",
+    hero_about_title:"Biz haqimizda",
+    story_title:"Birinchi kundan boshlab bilimlarni shakllantiramiz.",
+    story_p1:"Focus o'quv markazida biz ta'limni dunyoni o'zgartirishning eng kuchli vositasi deb bilamiz. Standart ta'lim va haqiqiy muvaffaqiyat o'rtasidagi tafovutni yo'qotish istagida biz talabalar shunchaki yodlamaydigan, balki tushunadigan muhitni yaratdik.",
+    story_p2:"Bizning zamonaviy o'quv dasturimiz, fidoyi o'qituvchilarimiz va talabaga yo'naltirilgan yondashuvimiz bizni Toshkentning yetakchi ta'lim muassasalaridan biriga aylantirdi.",
+    btn_join:"Bizning jamoaga qo'shiling",
+    team_title:"Ekspert ustozlarimiz bilan tanishing",team_sub:"Sizning muvaffaqiyatingizga o'zini bag'ishlagan fidoyi ustozlar.",
+    tutor1_subj:"IELTS va Ingliz tili",tutor1_desc:"Talabalarga 7.5+ ball olishga yordam berishda 8 yildan ortiq tajribaga ega bo'lgan sobiq IELTS imtihonchisi.",
+    tutor2_subj:"Oliy matematika",tutor2_desc:"Amaliy matematika bo'yicha PhD darajasi. Murakkab algebraik va matematik tushunchalarni soddalashtirishga ixtisoslashgan.",
+    tutor3_subj:"Tabiiy fanlar",tutor3_desc:"Interaktiv ta'lim orqali fizika va kimyoni hayotga tatbiq etuvchi mukofotga sazovor bo'lgan fan o'qituvchisi.",
+    timeline_title:"Bizning yo'limiz",timeline_sub:"Bizning o'sishimiz va ta'limga bo'lgan sadoqatimiz xronologiyasi.",
+    time1_title:"Focusga asos solindi",time1_desc:"Sifatli ta'lim berish ishtiyoqi asosida bitta xonadagi kichik repetitorlik guruhi sifatida boshlangan.",
+    time2_title:"100+ talabaga erishdik",time2_desc:"Bizning jamoamiz sezilarli darajada o'sdi va bu bizni A.Qodiriy ko'chasidagi hozirgi kattaroq kampusga ko'chishga undadi.",
+    time3_title:"O'quv dasturi kengaytirildi",time3_desc:"Zamonaviy talablarga javob beradigan keng qamrovli IT, Dasturlash va maxsus Universitetga tayyorgarlik kurslari joriy etildi.",
+    time4_title:"O'sishda davom etmoqdamiz",time4_desc:"Tez orada yangi raqamli ta'lim platformalarini ishga tushirish rejalashtirilgan, o'n yildan ortiq ta'limdagi mukammalligimizni nishonlamoqdamiz.",
+    hero_contact_title:"Bog'lanish",contact_get_in_touch:"Biz bilan bog'laning",
+    contact_desc:"Kurslarimiz yoki qabul bo'yicha savollaringiz bormi? Quyidagi aloqa ma'lumotlari orqali biz bilan bog'laning yoki formani to'ldiring.",
+    contact_address_title:"Bizning manzil",contact_address:"A.Qodiriy 11A<br>Toshkent, O'zbekiston",
+    contact_phone_title:"Telefon raqami",contact_phone_desc:"Maslahatchi bilan gaplashish uchun bizga qo'ng'iroq qiling.",
+    contact_hours_title:"Ish vaqti",contact_hours_desc:"Har kuni ochiq<br>9:00 dan 21:00 gacha",
+    form_title:"Xabar yuborish",form_name_label:"To'liq ismingiz",form_name_placeholder:"Masalan: Alisher Valiyev",
+    form_phone_label:"Telefon raqami",form_course_label:"Sizni qiziqtirgan kurs",form_course_placeholder:"Kursni tanlang...",
+    form_course_opt1:"Mukammal Ingliz tili",form_course_opt2:"Matematika",form_course_opt3:"Tabiiy fanlar",
+    form_course_opt4:"Universitetga tayyorgarlik (IELTS/SAT)",form_course_opt5:"Boshqa / Umumiy savol",
+    form_message_label:"Xabaringiz (Ixtiyoriy)",form_message_placeholder:"Sizga qanday yordam bera olamiz?",
+    form_submit:"So'rovni yuborish",success_title:"Rahmat!",success_desc:"Xabaringiz qabul qilindi.",success_sub:"24 soat ichida siz bilan bog'lanamiz!"
+  },
+  ru: {
+    nav_home:"Главная",nav_courses:"Курсы",nav_about:"О нас",nav_contact:"Контакты",
+    footer_desc:"Ваш надежный партнер в достижении академических успехов и развитии навыков. Строим светлое будущее каждый день.",
+    footer_quick_links:"Быстрые ссылки",footer_contact_info:"Контактная информация",footer_working_hours:"Рабочие часы",
+    footer_open_daily:"Открыто ежедневно",footer_hours:"9:00 - 21:00",footer_get_directions:"Проложить маршрут",
+    footer_copyright:"© 2026 Учебный центр Focus. Все права защищены.",
+    breadcrumb_home:"Главная",breadcrumb_courses:"Курсы",breadcrumb_about:"О нас",breadcrumb_contact:"Контакты",
+    hero_title:"Ваше будущее начинается в <span>Focus</span>",
+    hero_sub:"Обеспечиваем студентов в Ташкенте образованием мирового уровня. Раскройте свой потенциал, достигните своих целей и уверенно шагните в завтрашний день.",
+    btn_view_courses:"Смотреть курсы",btn_call_now:"Позвонить",
+    badge_rating:"Рейтинг студентов",badge_students:"Активных студентов",badge_years:"Лет опыта",
+    why_title:"Почему выбирают Focus?",why_sub:"Мы сочетаем экспертное обучение с поддерживающей средой, чтобы обеспечить успех каждого студента.",
+    why_1_title:"Опытные преподаватели",why_1_desc:"Учитесь у сертифицированных профессионалов, преданных вашему развитию.",
+    why_2_title:"Современная программа",why_2_desc:"Актуальные материалы, соответствующие мировым образовательным стандартам.",
+    why_3_title:"Небольшие группы",why_3_desc:"Небольшие размеры классов обеспечивают индивидуальный подход к каждому.",
+    why_4_title:"Удобное расположение",why_4_desc:"Легко добраться: А.Кадыри 11А, прямо в сердце Ташкента.",
+    courses_title:"Популярные курсы",courses_sub:"Откройте для себя наши самые востребованные учебные программы.",
+    btn_see_all:"Смотреть все курсы →",btn_learn_more:"Подробнее →",
+    idx_course1_title:"Подготовка к IELTS",idx_course1_desc:"Интенсивная подготовка для достижения целевого балла с использованием экспертных стратегий.",
+    idx_course2_title:"Общий английский",idx_course2_desc:"Улучшите свои навыки говорения, аудирования, чтения и письма от A1 до C1.",
+    idx_course3_title:"Математика",idx_course3_desc:"Освойте основные концепции для школьных экзаменов или вступительных тестов в университет.",
+    idx_course4_title:"IT и программирование",idx_course4_desc:"Начните свой путь в IT с основ Python, веб-разработки и логики.",
+    reviews_title:"Истории успеха студентов",reviews_sub:"Послушайте студентов, которые достигли своих целей вместе с нами.",
+    review_1:"\"Преподаватели IELTS в Focus просто невероятны. Я поднял балл с 5.5 до 7.5 всего за три месяца! Очень рекомендую.\"",
+    review_2:"\"Мои оценки по математике резко улучшились. Учителя объясняют сложные темы очень просто и понятно.\"",
+    review_3:"\"Отличная атмосфера, приветливый персонал и идеальное расположение. Focus — безусловно, лучший учебный центр в Ташкенте.\"",
+    stats_years:"Лет опыта",stats_students:"Активных студентов",stats_instructors:"Опытных преподавателей",stats_rating:"Средний рейтинг",
+    hero_courses_title:"Наши курсы",filter_all:"Все курсы",filter_english:"Английский",filter_math:"Математика",filter_sciences:"Науки",filter_uniprep:"Подготовка к ВУЗу",
+    crs_eng_title:"Мастерство английского",crs_eng_desc:"От базовой грамматики до свободного разговорного общения. Идеально подходит для всех возрастов.",
+    crs_math_title:"Математика",crs_math_desc:"Развивайте аналитические навыки. Алгебра, геометрия и матанализ для школьных экзаменов и олимпиад.",
+    crs_sci_title:"Естественные науки",crs_sci_desc:"Погрузитесь в физику и химию с практическим применением. Подготовьтесь к национальному тестированию.",
+    crs_uni_title:"Подготовка к ВУЗу (IELTS/SAT)",crs_uni_desc:"Интенсивная подготовка к важным экзаменам. Изучите стратегии тестирования и тайм-менеджмент.",
+    badge_6m:"⏱️ 6 Месяцев",badge_a1_c1:"📈 От Beginner до C1",badge_4_8m:"⏱️ 4-8 Месяцев",badge_all_levels:"📈 Все уровни",
+    badge_5m:"⏱️ 5 Месяцев",badge_inter:"📈 Средний уровень",badge_3m:"⏱️ 3 Месяца",badge_upper:"📈 Выше среднего",btn_enroll:"Записаться",
+    hero_about_title:"О нас",story_title:"Вдохновляем умы с первого дня.",
+    story_p1:"В учебном центре Focus мы верим, что образование — это самый мощный инструмент для изменения мира. Мы создали среду, в которой студенты не просто заучивают, а понимают.",
+    story_p2:"Наша современная учебная программа и ориентированный на студентов подход сделали нас одним из ведущих образовательных учреждений Ташкента.",
+    btn_join:"Присоединяйтесь к нам",
+    team_title:"Познакомьтесь с нашими экспертами",team_sub:"Увлеченные преподаватели, преданные вашему успеху.",
+    tutor1_subj:"IELTS и Английский",tutor1_desc:"Бывший экзаменатор IELTS с более чем 8-летним опытом помощи студентам в достижении балла 7.5+.",
+    tutor2_subj:"Высшая математика",tutor2_desc:"PhD по прикладной математике. Специализируется на упрощении сложных алгебраических концепций.",
+    tutor3_subj:"Естественные науки",tutor3_desc:"Отмеченный наградами преподаватель, оживляющий физику и химию через интерактивное обучение.",
+    timeline_title:"Наш путь",timeline_sub:"Хронология нашего роста и преданности образованию.",
+    time1_title:"Основание Focus",time1_desc:"Начали как небольшая репетиторская группа в одном классе, движимые страстью к качественному обучению.",
+    time2_title:"Достигли 100+ студентов",time2_desc:"Наше сообщество значительно выросло, что побудило нас переехать в более просторный кампус.",
+    time3_title:"Расширение программы",time3_desc:"Введены комплексные курсы по IT, программированию и специальная подготовка к университету.",
+    time4_title:"Продолжаем расти",time4_desc:"Празднуем более чем десятилетний опыт, скоро запуск новых цифровых обучающих платформ.",
+    hero_contact_title:"Контакты",contact_get_in_touch:"Свяжитесь с нами",
+    contact_desc:"Есть вопросы о наших курсах или поступлении? Свяжитесь с нами по указанным контактам или заполните форму.",
+    contact_address_title:"Наш адрес",contact_address:"А.Кадыри 11А<br>Ташкент, Узбекистан",
+    contact_phone_title:"Номер телефона",contact_phone_desc:"Позвоните нам, чтобы поговорить с консультантом.",
+    contact_hours_title:"Рабочие часы",contact_hours_desc:"Открыто ежедневно<br>9:00 – 21:00",
+    form_title:"Отправить сообщение",form_name_label:"Полное имя",form_name_placeholder:"Например: Иван Иванов",
+    form_phone_label:"Номер телефона",form_course_label:"Интересующий курс",form_course_placeholder:"Выберите курс...",
+    form_course_opt1:"Мастерство английского",form_course_opt2:"Математика",form_course_opt3:"Естественные науки",
+    form_course_opt4:"Подготовка к ВУЗу (IELTS/SAT)",form_course_opt5:"Другое / Общий вопрос",
+    form_message_label:"Ваше сообщение (Необязательно)",form_message_placeholder:"Чем мы можем вам помочь?",
+    form_submit:"Отправить запрос",success_title:"Спасибо!",success_desc:"Ваше сообщение получено.",success_sub:"Мы свяжемся с вами в течение 24 часов!"
+  },
+  en: {
+    nav_home:"Home",nav_courses:"Courses",nav_about:"About",nav_contact:"Contact",
+    footer_desc:"Your dedicated partner in academic excellence and skill development. Building brighter futures every day.",
+    footer_quick_links:"Quick Links",footer_contact_info:"Contact Info",footer_working_hours:"Working Hours",
+    footer_open_daily:"Open Daily",footer_hours:"9:00 AM - 9:00 PM",footer_get_directions:"Get Directions",
+    footer_copyright:"© 2026 Focus Learning Centre. All rights reserved.",
+    breadcrumb_home:"Home",breadcrumb_courses:"Courses",breadcrumb_about:"About",breadcrumb_contact:"Contact",
+    hero_title:"Your Future Starts at <span>Focus</span>",
+    hero_sub:"Empowering students in Tashkent with world-class education. Unlock your potential, achieve your goals, and step confidently into tomorrow.",
+    btn_view_courses:"View Courses",btn_call_now:"Call Now",
+    badge_rating:"Student Rating",badge_students:"Active Students",badge_years:"Of Excellence",
+    why_title:"Why Choose Focus?",why_sub:"We combine expert instruction with a supportive environment to ensure every student succeeds.",
+    why_1_title:"Expert Tutors",why_1_desc:"Learn from certified professionals dedicated to your growth.",
+    why_2_title:"Modern Curriculum",why_2_desc:"Up-to-date materials that match global educational standards.",
+    why_3_title:"Focused Batches",why_3_desc:"Small class sizes ensure personalized attention for everyone.",
+    why_4_title:"Prime Location",why_4_desc:"Easily accessible at A.Qodiriy 11A, right in the heart of Tashkent.",
+    courses_title:"Popular Courses",courses_sub:"Discover our most sought-after learning programs.",
+    btn_see_all:"See All Courses →",btn_learn_more:"Learn More →",
+    idx_course1_title:"IELTS Preparation",idx_course1_desc:"Intensive training to achieve your target band score with expert strategies.",
+    idx_course2_title:"General English",idx_course2_desc:"Improve your speaking, listening, reading, and writing skills from A1 to C1.",
+    idx_course3_title:"Mathematics",idx_course3_desc:"Master core concepts for school exams or university entrance tests.",
+    idx_course4_title:"IT & Coding",idx_course4_desc:"Start your tech journey with Python, Web Development, and Logic fundamentals.",
+    reviews_title:"Student Success Stories",reviews_sub:"Hear from the students who achieved their goals with us.",
+    review_1:"\"The IELTS instructors at Focus are incredible. I jumped from a 5.5 to a 7.5 in just three months! Highly recommended.\"",
+    review_2:"\"My math grades improved drastically. The teachers explain complex topics in a very simple and understandable way.\"",
+    review_3:"\"Great atmosphere, friendly staff, and the location is perfect. Focus is definitely the best learning center in Tashkent.\"",
+    stats_years:"Years of Experience",stats_students:"Active Students",stats_instructors:"Expert Instructors",stats_rating:"Average Rating",
+    hero_courses_title:"Our Courses",filter_all:"All Courses",filter_english:"English",filter_math:"Math",filter_sciences:"Sciences",filter_uniprep:"Uni Prep",
+    crs_eng_title:"English Mastery",crs_eng_desc:"From foundational grammar to advanced conversational fluency. Perfect for all ages looking to master the global language.",
+    crs_math_title:"Mathematics",crs_math_desc:"Build strong analytical skills. Covering algebra, geometry, and calculus for school exams and competitive Olympiads.",
+    crs_sci_title:"Natural Sciences",crs_sci_desc:"Dive into Physics and Chemistry with practical applications. Prepare effectively for national testing.",
+    crs_uni_title:"University Prep (IELTS/SAT)",crs_uni_desc:"Intensive preparation focused on high-stakes exams. Learn test strategies, time management, and core requirements.",
+    badge_6m:"⏱️ 6 Months",badge_a1_c1:"📈 Beginner to C1",badge_4_8m:"⏱️ 4-8 Months",badge_all_levels:"📈 All Levels",
+    badge_5m:"⏱️ 5 Months",badge_inter:"📈 Intermediate",badge_3m:"⏱️ 3 Months",badge_upper:"📈 Upper-Intermediate",btn_enroll:"Enroll Now",
+    hero_about_title:"About Us",story_title:"Empowering minds since day one.",
+    story_p1:"At Focus Learning Centre, we believe that education is the most powerful tool to change the world. We created an environment where students don't just memorize—they understand.",
+    story_p2:"Our modern curriculum, dedicated teachers, and student-first approach have made us one of Tashkent's leading educational institutes.",
+    btn_join:"Join Our Community",
+    team_title:"Meet Our Expert Tutors",team_sub:"Passionate educators dedicated to your success.",
+    tutor1_subj:"IELTS & English",tutor1_desc:"Former IELTS examiner with over 8 years of experience helping students achieve Band 7.5+.",
+    tutor2_subj:"Advanced Mathematics",tutor2_desc:"PhD in Applied Mathematics. Specializes in simplifying complex algebraic and calculus concepts.",
+    tutor3_subj:"Natural Sciences",tutor3_desc:"Award-winning science educator bringing physics and chemistry to life through interactive learning.",
+    timeline_title:"Our Journey",timeline_sub:"A timeline of our growth and dedication to education.",
+    time1_title:"Focus is Founded",time1_desc:"Started as a small tutoring group in a single classroom, driven by a passion for quality teaching.",
+    time2_title:"Reached 100+ Students",time2_desc:"Our community grew significantly, prompting us to move to our current, larger campus at A.Qodiriy.",
+    time3_title:"Expanded Curriculum",time3_desc:"Introduced comprehensive IT, Coding, and specialized University Prep courses to meet modern demands.",
+    time4_title:"Still Growing Strong",time4_desc:"Celebrating over a decade of educational excellence, with new digital learning platforms launching soon.",
+    hero_contact_title:"Contact Us",contact_get_in_touch:"Get in Touch",
+    contact_desc:"Have questions about our courses or admissions? Reach out to us using the contact details below, or fill out the form.",
+    contact_address_title:"Our Address",contact_address:"A.Qodiriy 11A<br>Tashkent, Uzbekistan",
+    contact_phone_title:"Phone Number",contact_phone_desc:"Give us a call to speak with an advisor.",
+    contact_hours_title:"Working Hours",contact_hours_desc:"Open Daily<br>9:00 AM – 9:00 PM",
+    form_title:"Send a Message",form_name_label:"Full Name",form_name_placeholder:"e.g. John Doe",
+    form_phone_label:"Phone Number",form_course_label:"Course Interest",form_course_placeholder:"Select a course...",
+    form_course_opt1:"English Mastery",form_course_opt2:"Mathematics",form_course_opt3:"Natural Sciences",
+    form_course_opt4:"University Prep (IELTS/SAT)",form_course_opt5:"Other / General Inquiry",
+    form_message_label:"Your Message (Optional)",form_message_placeholder:"How can we help you?",
+    form_submit:"Submit Inquiry",success_title:"Thank You!",success_desc:"Your message has been received.",success_sub:"We'll contact you within 24 hours!"
+  }
+};
+</script>
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+  // ---- PAGE ROUTER ----
+  let currentPage = 'home';
+  function showPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    document.querySelectorAll('.nav-links a[data-page]').forEach(a => {
+      a.classList.toggle('active-page', a.getAttribute('data-page') === page);
+    });
+    currentPage = page;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(initFadeObserver, 100);
+    // Reset contact form when navigating to contact
+    if (page === 'contact') {
+      document.getElementById('formContainer').style.display = 'block';
+      document.getElementById('successMessage').classList.remove('show');
+    }
+  }
+
+  // ---- NAVBAR ----
+  const navbar = document.getElementById('navbar');
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navLinks.classList.toggle('active');
+  });
+
+  // Close mobile menu on nav click
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('active');
+    });
+  });
+
+  // ---- LANGUAGE SWITCHER ----
+  function applyLanguage(lang) {
+    localStorage.setItem('focus_lang', lang);
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (translations[lang] && translations[lang][key] !== undefined) {
+        el.innerHTML = translations[lang][key];
+      }
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (translations[lang] && translations[lang][key]) {
+        el.placeholder = translations[lang][key];
+      }
+    });
+  }
+
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang')));
+  });
+
+  // ---- FADE ANIMATIONS ----
+  function initFadeObserver() {
+    const fadeEls = document.querySelectorAll('#page-' + currentPage + ' .fade-up:not(.visible)');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    fadeEls.forEach(el => obs.observe(el));
+  }
+
+  // ---- COURSE FILTER ----
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.getAttribute('data-filter');
+      document.querySelectorAll('.course-card-wrapper').forEach(card => {
+        const show = filter === 'all' || card.getAttribute('data-category') === filter;
+        card.style.display = show ? 'flex' : 'none';
+      });
+    });
+  });
+
+  // ---- CONTACT FORM ----
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('formContainer').style.display = 'none';
+    document.getElementById('successMessage').classList.add('show');
+  });
+
+  // ---- INIT ----
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('focus_lang') || 'uz';
+    applyLanguage(savedLang);
+    initFadeObserver();
+    // Trigger initial hero fade
+    setTimeout(() => {
+      document.querySelectorAll('#page-home .fade-up').forEach(el => el.classList.add('visible'));
+    }, 200);
+  });
+</script>
+</body>
+</html>
