@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SkillUp AI — Your Personal Career Roadmap</title>
+<meta name="description" content="SkillUp AI is a free AI career mentor for students: answer 3 questions and get a personalized career roadmap with the skills, courses and internships you need.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://taatwvl-coder.github.io/focus-learning-centre/skillup/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SkillUp AI — Your Personal Career Roadmap">
+<meta property="og:description" content="SkillUp AI is a free AI career mentor for students: answer 3 questions and get a personalized career roadmap with the skills, courses and internships you need.">
+<meta property="og:url" content="https://taatwvl-coder.github.io/focus-learning-centre/skillup/">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"SkillUp AI","url":"https://taatwvl-coder.github.io/focus-learning-centre/skillup/","description":"SkillUp AI is a free AI career mentor for students: answer 3 questions and get a personalized career roadmap with the skills, courses and internships you need."}</script>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f7f8fc;--card:#fff;--text:#14162b;--muted:#5d6280;--p:#5b4bff;--p2:#00c2a8;--line:#e3e6f2}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1020;--card:#171a30;--text:#eef0ff;--muted:#a0a5c8;--p:#8a7dff;--p2:#2ee6c8;--line:#2a2e4d}}
+:root[data-theme="dark"]{--bg:#0e1020;--card:#171a30;--text:#eef0ff;--muted:#a0a5c8;--p:#8a7dff;--p2:#2ee6c8;--line:#2a2e4d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6}
+.w{max-width:1000px;margin:0 auto;padding:0 20px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.logo{font-weight:800;font-size:20px}.logo span{color:var(--p)}
+nav a{color:var(--muted);text-decoration:none;margin-left:18px;font-size:14px}
+.hero{text-align:center;padding:50px 0 40px}
+.badge{display:inline-block;background:color-mix(in srgb,var(--p) 14%,transparent);color:var(--p);padding:6px 14px;border-radius:99px;font-size:13px;font-weight:600}
+h1{font-size:clamp(32px,6vw,56px);line-height:1.12;margin:18px 0}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--p),var(--p2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:600px;margin:0 auto 26px;color:var(--muted);font-size:18px}
+.btn{display:inline-block;background:var(--p);color:#fff;border:0;padding:13px 26px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;text-decoration:none}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:40px}
+.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.stat b{display:block;font-size:30px;color:var(--p)}.stat span{color:var(--muted);font-size:14px}
+section{padding:46px 0}
+h2{font-size:30px;margin:0 0 8px}.sub{color:var(--muted);margin:0 0 26px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card .ic{font-size:28px}.card h3{margin:8px 0 4px;font-size:18px}.card p{margin:0;color:var(--muted);font-size:15px}
+.num{width:34px;height:34px;border-radius:50%;background:var(--p);color:#fff;display:grid;place-items:center;font-weight:700;margin-bottom:8px}
+.demo{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px}
+.lbl{font-weight:600;margin:16px 0 8px}.lbl:first-child{margin-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:transparent;color:var(--text);padding:9px 15px;border-radius:99px;cursor:pointer;font-size:14px}
+.chip.on{background:var(--p);border-color:var(--p);color:#fff}
+#out{margin-top:24px;display:none}
+.rm-h{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.match{background:color-mix(in srgb,var(--p2) 20%,transparent);color:var(--p2);padding:5px 12px;border-radius:99px;font-weight:700;font-size:14px}
+.tl{border-left:3px solid var(--p);margin-left:10px;padding-left:20px}
+.st{position:relative;margin-bottom:16px}
+.st:before{content:"";position:absolute;left:-29px;top:6px;width:13px;height:13px;border-radius:50%;background:var(--p2);border:3px solid var(--card)}
+.st b{display:block}.st small{color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.tag{background:color-mix(in srgb,var(--p) 13%,transparent);color:var(--p);padding:4px 10px;border-radius:8px;font-size:13px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:16px}
+.box{border:1px solid var(--line);border-radius:14px;padding:16px}.box h4{margin:0 0 8px}.box ul{margin:0;padding-left:18px;color:var(--muted);font-size:14px}
+.cta{text-align:center;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-radius:24px;padding:44px 20px}
+.cta .btn{background:#fff;color:#14162b}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 0}
+</style>
+</head>
+<body>
+<div class="w">
+<nav><div class="logo">Skill<span>Up</span> AI</div><div><a href="#problem">Problem</a><a href="#solution">Solution</a><a href="#demo">Demo</a></div></nav>
+
+<div class="hero">
+<span class="badge">🚀 AI career mentor for students</span>
+<h1>Find your future career <em>with AI</em></h1>
+<p>SkillUp AI analyzes your interests, knowledge and goals, then builds a personalized career roadmap just for you.</p>
+<a class="btn" href="#demo">Try the roadmap</a>
+<div class="stats">
+<div class="stat"><b>3</b><span>core questions: career, skills, internship</span></div>
+<div class="stat"><b>1 min</b><span>to get your personal roadmap</span></div>
+<div class="stat"><b>100%</b><span>tailored to your goals</span></div>
+</div>
+</div>
+
+<section id="problem">
+<h2>The Problem</h2><p class="sub">Many students feel lost and directionless during their studies.</p>
+<div class="grid">
+<div class="card"><div class="ic">🤔</div><h3>Which career should I choose?</h3><p>There are so many paths, and it's hard to find the one that fits your interests.</p></div>
+<div class="card"><div class="ic">🧩</div><h3>Which skills do I need?</h3><p>There's endless information online, but no clear place to start.</p></div>
+<div class="card"><div class="ic">🔍</div><h3>Where do I find an internship?</h3><p>Experience is required, but finding the first opportunity is the hardest part.</p></div>
+</div>
+</section>
+
+<section id="solution">
+<h2>The Solution: SkillUp AI</h2><p class="sub">A personal roadmap in four simple steps.</p>
+<div class="grid">
+<div class="card"><div class="num">1</div><h3>Profile</h3><p>Enter your interests, skill level and goals.</p></div>
+<div class="card"><div class="num">2</div><h3>AI Analysis</h3><p>Your strengths and missing skills are identified.</p></div>
+<div class="card"><div class="num">3</div><h3>Roadmap</h3><p>A step-by-step learning plan with recommended courses.</p></div>
+<div class="card"><div class="num">4</div><h3>Internships</h3><p>Matching internships and hands-on opportunities.</p></div>
+</div>
+</section>
+
+<section id="demo">
+<h2>Live Demo</h2><p class="sub">Make your choices and see your own roadmap.</p>
+<div class="demo">
+<div class="lbl">1. What are you interested in?</div><div class="chips" id="g1"></div>
+<div class="lbl">2. Your current level</div><div class="chips" id="g2"></div>
+<div class="lbl">3. Your goal</div><div class="chips" id="g3"></div>
+<div style="margin-top:20px"><button class="btn" id="go">✨ Generate roadmap</button></div>
+<div id="out"></div>
+</div>
+</section>
+
+<section>
+<div class="cta"><h2>The future starts today</h2><p style="margin:0 0 20px">With SkillUp AI, every student finds their own path.</p><a class="btn" href="#demo">Get started</a></div>
+</section>
+<footer>© 2026 SkillUp AI · Built for students</footer>
+</div>
+
+<script>
+var D={
+"Programming":{role:"Frontend / Backend Developer",skills:["HTML, CSS, JavaScript","Git & GitHub","React or Python","SQL & APIs"],steps:["Learn programming basics and algorithms","Build 2–3 small projects","Create a GitHub portfolio","Join open-source projects or hackathons"],courses:["freeCodeCamp","CS50 (Harvard)","The Odin Project"],intern:["EPAM Uzbekistan","IT Park residents","Najot Ta'lim","LinkedIn Jobs"]},
+"Design":{role:"UI/UX Designer",skills:["Figma","User research","Typography & color","Prototyping"],steps:["Learn design fundamentals","Design 3 apps in Figma","Build a Behance portfolio","Take a real freelance client project"],courses:["Google UX Certificate","Figma Learn","Coursera Design"],intern:["Startups","Design agencies","Behance","Telegram freelance channels"]},
+"Data & AI":{role:"Data Analyst / ML Engineer",skills:["Python & Pandas","SQL","Statistics","Machine Learning basics"],steps:["Strengthen Python and math","Analyze datasets on Kaggle","Build an ML model","Showcase results in your portfolio"],courses:["Kaggle Learn","Andrew Ng's ML course","DataCamp"],intern:["Kaggle competitions","IT Park","Banks & fintech","LinkedIn Jobs"]},
+"Marketing":{role:"Digital Marketing / SMM Specialist",skills:["Content creation","Paid ads","Analytics","Copywriting"],steps:["Learn marketing basics","Run your own social page","Launch a campaign for a small business","Build a portfolio of case studies"],courses:["Google Digital Garage","HubSpot Academy","Meta Blueprint"],intern:["Marketing agencies","Startups","Online stores","Instagram/Telegram channels"]},
+"Business":{role:"Product / Business Analyst",skills:["Business analysis","Excel & SQL basics","Project management","Presentation skills"],steps:["Learn business models and Excel","Practice case-study analysis","Lead a team project","Gain experience in a startup or club"],courses:["Coursera Business","Product School","Learn Notion/Jira"],intern:["Startups","Consulting firms","Banks","Student clubs"]}
+};
+var sel={g1:"Programming",g2:"Beginner",g3:"Find an internship"};
+var G={g1:Object.keys(D),g2:["Beginner","Intermediate","Advanced"],g3:["Find an internship","Get a job","Freelance","Build a startup"]};
+Object.keys(G).forEach(function(id){var el=document.getElementById(id);
+G[id].forEach(function(v){var b=document.createElement("button");b.className="chip"+(sel[id]==v?" on":"");b.textContent=v;
+b.onclick=function(){sel[id]=v;[].forEach.call(el.children,function(c){c.classList.toggle("on",c==b)})};el.appendChild(b)})});
+document.getElementById("go").onclick=function(){
+var d=D[sel.g1],lv=sel.g2,m={"Beginner":78,"Intermediate":88,"Advanced":95}[lv],
+mo={"Beginner":"3–4 months","Intermediate":"2–3 months","Advanced":"1–2 months"}[lv];
+var steps=lv=="Advanced"?d.steps.slice(1):d.steps;
+var h='<div class="rm-h"><div><h3 style="margin:0">🎯 '+d.role+'</h3><small style="color:var(--muted)">Goal: '+sel.g3+' · Timeline: ~'+mo+'</small></div><span class="match">'+m+'% match</span></div>';
+h+='<div class="lbl">Skills you need</div><div class="tags">'+d.skills.map(function(s){return'<span class="tag">'+s+'</span>'}).join("")+'</div>';
+h+='<div class="lbl">Your steps</div><div class="tl">'+steps.map(function(s,i){return'<div class="st"><b>Step '+(i+1)+'</b><small>'+s+'</small></div>'}).join("")+'</div>';
+h+='<div class="two"><div class="box"><h4>📚 Recommended courses</h4><ul>'+d.courses.map(function(x){return'<li>'+x+'</li>'}).join("")+'</ul></div><div class="box"><h4>💼 Where to find internships</h4><ul>'+d.intern.map(function(x){return'<li>'+x+'</li>'}).join("")+'</ul></div></div>';
+var o=document.getElementById("out");o.innerHTML=h;o.style.display="block";o.scrollIntoView({behavior:"smooth",block:"nearest"})};
+</script>
+</body>
+</html>
